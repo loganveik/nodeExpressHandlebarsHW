@@ -1,3 +1,7 @@
+body{
+    background-color: yellow;
+}
+
 .main {
     display: flex;
      
@@ -49,15 +53,7 @@ justify-content: center;
 flex-direction: column;
 }
 
-.header{
-    background-color: chartreuse;
-    margin-bottom: 40px;
-    height: 100px;
-    text-align: center;
-    font-size: 3em;
-    font-family: serif;
-}
-
-.headerText{
-    padding-top: 10px;
+#submit:hover, .delete:hover, .eat:hover{
+    background-color: yellowgreen;
+    color: white;
 }

@@ -1,41 +1,33 @@
-<nav class="header">
-  <div class="headerText">Hamburger App</div>
-</nav>
-
-
-
-
 <div class="main">
 
   <ul class="left">
-    <h1>Burgers to EAT!!!!</h1>
+    <h1>Ready-To-Eat Burgers</h1>
 
     {{#each burgers}}
     {{#unless devoured}}
-    <li class="each">{{burger_name}} &emsp; <button class="eat" data-id={{id}}>EAT ME</button></li>
+    <li class="each">{{burger_name}} &emsp; <button class="eat" data-id={{id}}>Devour</button></li>
     {{/unless}}
     </li>
     {{/each}}
   </ul>
 
-
-
-
   <div class="middle">
-    <img class="pic" src="https://lh3.googleusercontent.com/proxy/UPktn2LGU_IhX3m60ZrCPenztNS6FLgzDyNIgvvJQQYkiTdsdbgVoIEz6TTx_dI1_LRS0ZciENjzl2D8Sk3zpV8EJw" alt="Hamburger Pic">
+    <img class="pic"
+      src="https://lh3.googleusercontent.com/proxy/UPktn2LGU_IhX3m60ZrCPenztNS6FLgzDyNIgvvJQQYkiTdsdbgVoIEz6TTx_dI1_LRS0ZciENjzl2D8Sk3zpV8EJw"
+      alt="Hamburger Pic">
     <br>
     <form>
       <div class="input-group mb-3">
-        <input type="text" class="form-control formWidth" placeholder="Create a New Burger" name="Burger Name"
+        <input type="text" class="form-control formWidth" placeholder="Create new burger" name="Burger Name"
           id="newBurger" aria-label="Recipient's username" aria-describedby="button-addon2">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="submit" id="submit">Create</button>
+          <button class="btn btn-outline-secondary my-2" type="submit" id="submit">Create</button>
         </div>
       </div>
   </div>
 
   <ul class="right">
-    <h1>Burgers EATEN!!!!</h1>
+    <h1>Devoured Burgers</h1>
     {{#each burgers}}
     {{#if devoured}}
     <li class="each">{{burger_name}}&emsp; <button class="delete" data-id={{id}}>Delete</button></li>
