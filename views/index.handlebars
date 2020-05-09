@@ -1,38 +1,103 @@
-<h1>eat da BURGER!</h1>
+<nav class="header">
+  <div class="headerText">Hamburger App</div>
+</nav>
 
-<h2>ready-to-eat burgers</h2>
 
-<ul>
-  {{#each burger_name}}
-    {{#unless sleepy}}
-      {{> cats/cat-block sleep=true}}
+
+
+<div class="main">
+
+  <ul class="left">
+    <h1>Burgers to EAT!!!!</h1>
+
+    {{#each burgers}}
+    {{#unless devoured}}
+    <li class="each">{{burger_name}} &emsp; <button class="eat" data-id={{id}}>EAT ME</button></li>
     {{/unless}}
-  {{/each}}
-</ul>
+    </li>
+    {{/each}}
+  </ul>
 
-<h2>devoured-burgers</h2>
 
-<ul>
-  {{#each cats}}
-    {{#if sleepy}}
-      {{> cats/cat-block sleep=false}}
+
+
+  <div class="middle">
+    <img class="pic" src="https://lh3.googleusercontent.com/proxy/UPktn2LGU_IhX3m60ZrCPenztNS6FLgzDyNIgvvJQQYkiTdsdbgVoIEz6TTx_dI1_LRS0ZciENjzl2D8Sk3zpV8EJw" alt="Hamburger Pic">
+    <br>
+    <form>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control formWidth" placeholder="Create a New Burger" name="Burger Name"
+          id="newBurger" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="submit" id="submit">Create</button>
+        </div>
+      </div>
+  </div>
+
+  <ul class="right">
+    <h1>Burgers EATEN!!!!</h1>
+    {{#each burgers}}
+    {{#if devoured}}
+    <li class="each">{{burger_name}}&emsp; <button class="delete" data-id={{id}}>Delete</button></li>
+
     {{/if}}
-  {{/each}}
-</ul>
+    {{/each}}
+  </ul>
 
-<h2>Add a Cat</h2>
-<form class="create-form">
+</div>
+<script>
+  $(function () {
+    $(".eat").on("click", function (event) {
+      const id = $(this).data("id");
 
-  <div class="form-group">
-    <label for="ca">Cat Name:</label>
-    <input type="text" id="ca" name="name">
-  </div>
+      //const newSleep = $(this).data("newsleep");
+      const devoured = {
+        name: $('.id').val()
+      };
+      // Send the PUT request.
+      $.ajax("/api/burgers/" + id, {
+        type: "PUT",
+        data: devoured
+      }).then(
+        function () {
+          //console.log("devoured", devoured);
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+    });
+    $("#submit").on("click", function (event) {
+      // Make sure to preventDefault on a submit event.
+      event.preventDefault();
+      const newBurger = {
+        name: $("#newBurger").val().trim(),
+        devoured: false
+      };
+      // Send the POST request.
+      $.ajax("/api/burgers", {
+        type: "POST",
+        data: newBurger
+      }).then(
+        function () {
+          console.log("created new burger");
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+    });
 
-  <div class="form-group">
-    <label for="slee">Sleepy?</label><br>
-    <input type="radio" name="sleepy" value="1" checked> Sleepy!<br>
-    <input type="radio" name="sleepy" value="0"> Awake
-  </div>
-
-  <button type="submit">Add Cat</button>
-</form>
+    $(".delete").on("click", function (event) {
+      const id = $(this).data("id");
+      // Send the DELETE request.
+      $.ajax("/api/burgers/" + id, {
+        type: "DELETE"
+      }).then(
+        function () {
+          console.log("deleted burger", id);
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+    });
+  }); 
+</script>

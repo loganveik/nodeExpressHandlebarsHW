@@ -1,45 +1,52 @@
 const express = require("express");
-const router = express.Router();
-const cat = require("../models/burger.js");
+const burger = require("../models/burger.js")
+const router = express.Router()
 
-// Create all our routes and set up logic within those routes where required.
-router.get("/", function(req, res) {
-  cat.all(function(data) {
-    const hbsObject = {
-      cats: data
-    };
-    console.log(hbsObject);
-    res.render("index", hbsObject);
+
+router.get("/", function (req, res) {
+  console.log("get")
+  burger.selectAll(function (data) {
+
+    // preapare for render in the handlebars
+    res.render("index", { burgers: data })
+  })
+
+})
+
+
+router.post("/api/burgers", function (req, res) {
+  console.log("POST: ", req.body)
+  //calling burger ORM to create a burger 
+  burger.insertOne(["burger_name"], [req.body.name], function (data) {
+
+    res.json(data)
+  })
+
+})
+
+router.put("/api/burgers/:id", function (req, res) {
+  console.log("PUT: ", req.params)
+
+  let condition = "id=" + req.params.id
+  burger.updateOne({ devoured: true }, condition, function (data) {
+    res.json(data)
+
+  })
+
+})
+
+router.delete("/api/burgers/:id", function (req, res) {
+  const condition = "id = " + req.params.id;
+  console.log(condition)
+  burger.deleteOne(condition, function (result) {
+    if (result.affectedRows == 0) {
+      // If no rows were changed, then the ID must not exist, so 404
+      return res.status(404).end();
+    } else {
+      res.status(200).end();
+    }
   });
 });
 
-router.post("/api/cats", function(req, res) {
-  cat.create(["name", "sleepy"], [req.body.name, req.body.sleepy], function(result) {
-    // Send back the ID of the new quote
-    res.json({ id: result.insertId });
-  });
-});
 
-// router.put("/api/cats/:id", function(req, res) {
-//   const condition = "id = " + req.params.id;
-
-//   console.log("condition", condition);
-
-//   cat.update(
-//     {
-//       sleepy: req.body.sleepy
-//     },
-//     condition,
-//     function(result) {
-//       if (result.changedRows === 0) {
-
-//         return res.status(404).end();
-//       }
-//       res.status(200).end();
-
-//     }
-//   );
-// });
-
-
-module.exports = router;
+module.exports = router

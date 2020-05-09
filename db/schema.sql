@@ -1,12 +1,10 @@
-### Schema
+CREATE DATABASE burgers_db;
 
-CREATE DATABASE cat_db;
-USE cat_db;
+USE burgers_db;
 
-CREATE TABLE cats
-(
-	id int NOT NULL AUTO_INCREMENT,
-	name varchar(255) NOT NULL,
-	sleepy BOOLEAN DEFAULT false,
-	PRIMARY KEY (id)
+CREATE TABLE burgers (
+	id int(5) AUTO_INCREMENT,
+    burger_name varchar(30),
+    devoured BOOLEAN default false,
+    PRIMARY KEY(id)
 );
